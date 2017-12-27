@@ -1,0 +1,22 @@
+{
+  "name": "node-practice",
+  "version": "1.0.0",
+  "description": "node的一些实用的练习示例",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HuYuee/node-practice.git"
+  },
+  "author": "huyuee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HuYuee/node-practice/issues"
+  },
+  "homepage": "https://github.com/HuYuee/node-practice#readme",
+  "dependencies": {
+    "nodemailer": "^4.4.1"
+  }
+}
