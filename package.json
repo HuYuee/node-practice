@@ -4,7 +4,8 @@
   "description": "node的一些实用的练习示例",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "catch": "casperjs demo/catchpage.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/HuYuee/node-practice#readme",
   "dependencies": {
+    "casperjs": "^1.1.4",
     "nodemailer": "^4.4.1"
   }
 }
