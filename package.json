@@ -19,6 +19,9 @@
   "homepage": "https://github.com/HuYuee/node-practice#readme",
   "dependencies": {
     "casperjs": "^1.1.4",
-    "nodemailer": "^4.4.1"
+    "gm": "^1.23.1",
+    "node-tesseract": "^0.2.7",
+    "nodemailer": "^4.4.1",
+    "superagent": "^3.8.2"
   }
 }
