@@ -6,10 +6,13 @@ gm("http://www.iyingdi.cn/code?v=" + d)
     if (err) console.log(err);
   });
 let options = { psm: 7 };
+let code;
 tesseract.process("img/1.jpg", options, (err, text) => {
   if (err) {
     console.log(err);
   } else {
-    console.log(text);
+    code = text;
   }
+  module.exports = code;
 });
+
