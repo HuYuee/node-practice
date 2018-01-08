@@ -1,72 +1,86 @@
 var request = require("superagent");
-var md5 = require('md5');
+var md5 = require("md5");
 var gm = require("gm");
 var tesseract = require("node-tesseract");
-var d = new Date().getTime();
+var d_;
 
-// var headers = {
-//   Host: "www.iyingdi.cn",
-//   Connection: "keep-alive",
-//   "Content-Length": "186",
-//   Accept:
-//     "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-//   Origin: "http://www.iyingdi.cn",
-//   "X-Requested-With": "XMLHttpRequest",
-//   "User-Agent":
-//     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36",
-//   "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-//   Referer: "http://www.iyingdi.cn/",
-//   "Accept-Encoding": "gzip, deflate",
-//   "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7"
-// };
+var headers = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36"
+};
 
-// var getCode = function() {
-//   return new Promise((resolve, reject) => {
-//     gm("http://www.iyingdi.cn/code?v=" + d).write("img/1.jpg", err => {
-//       if (err) reject(err);
-//     });
-//     let options = { psm: 7 };
-//     let code;
-//     tesseract.process("img/1.jpg", options, (err, text) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(text);
-//       }
-//     });
-//   });
-// };
+var getCode = function() {
+  return new Promise((resolve, reject) => {
+    var d = new Date().getTime();
+    d_ = d;
+    gm("http://www.iyingdi.cn/code?v=" + d).write("img/1.jpg", err => {
+      if (err) reject(err);
+    });
+    let options = {
+      psm: 7,
+      lang: 'eng'
+    };
+    let code;
+    tesseract.process("img/1.jpg", options, (err, text) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(text);
+      }
+    });
+  });
+};
 
-// var login = function(code) {
-//   return new Promise((resolve, reject) => {
-//     request
-//       .get("http://www.iyingdi.cn/user/login/v2")
-//       .set(headers)
-//       .set({
-//         "username":"1062887235",
-//         "password":"19C44C10A4BD147354A892EDD43F4D36",
-//         "code":code,
-//         "system":"web",
-//         "appKey":"appKey:e5Q5dMa32s1kyi87o5g1D3Fg1ku5O4RT",
-//         "timestamp":new Date().getTime(),
-//         "signature":"83FAE58904B319C55B0C7DBDD0529732"
-//       })
-//       .end(function(res) {
-//         if (res) {
-//           resolve(res);
-//         } else {
-//           reject(res);
-//         }
-//       });
-//   });
-// };
-// getCode()
-//   .then(login)
-//   .then(text => {
-//     console.log(text);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
+var login = function(code) {
+  return new Promise((resolve, reject) => {
+    var time = new Date().getTime();
+    var d = parseInt(time/1000);
+    if(time>d_){
+      console.log(time)
+      console.log('==================================')
+      console.log(d_)
+    }
+    console.log(code);
+    console.log("password: "+md5("sutUsdflweD"+md5('huyue3315591120').toUpperCase()+"Djklet5").toUpperCase());
+    console.log("timestamp: "+d);
+    console.log("signature: "+md5("e5Q5dMa32s1kyi87o5g1D3Fg1ku5O4RTW15Jyt87GH1m12rYUki4Fip87s5z142g1Ad4Ut64sR8t4JS54iYu87O7ps5RQ12g"+(d % 111111 + d % 654321) + "1062887235").toUpperCase());
 
-console.log(md5('huyueb').toUpperCase())
+
+    request
+      .post("http://www.iyingdi.cn/user/login/v2")
+      .set(headers)
+      .field("username","1062887235")
+      .field("password",md5("sutUsdflweD"+md5('3315591120')+"Djklet5").toUpperCase())
+      .field("system","web")
+      .field("appKey","e5Q5dMa32s1kyi87o5g1D3Fg1ku5O4RT")
+      .field("timestamp",d)
+      .field("code","qx8g")
+      .field("signature",md5("e5Q5dMa32s1kyi87o5g1D3Fg1ku5O4RTW15Jyt87GH1m12rYUki4Fip87s5z142g1Ad4Ut64sR8t4JS54iYu87O7ps5RQ12g"+(d % 111111 + d % 654321) + "1062887235").toUpperCase())
+      .redirects(0)
+      .end(function(err,res) {
+        if (res) {
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      });
+  });
+};
+getCode()
+  .then(login)
+  .then(text => {
+    console.log(text);
+  })
+  .catch(err => {
+    console.log(err.res);
+  });
+  // login()
+  // .then(text => {
+  //   console.log(text);
+  // })
+  // .catch(err => {
+  //   console.log(err.res);
+  // });
+
+// console.log(md5('huyueb').toUpperCase())
+// "username=1062887235&password=xxxx&code=code&system=web&appKey=e5Q5dMa32s1kyi87o5g1D3Fg1ku5O4RT&timestamp=d&signature=xx"
